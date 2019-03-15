@@ -98,8 +98,9 @@ if __name__ == '__main__':
     bi, allprops = p(uni_dictionary, bi_dictionary, tir_dictionary, trigram)
     # print(bi)
     # print(allprops)
-    # enter the test word
-    x = test("اللجنة", bi, allprops)
+    print("Enter the test word:")
+    t=input()
+    x = test(t, bi, allprops)
     print(x)
 
 
