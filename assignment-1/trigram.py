@@ -82,7 +82,11 @@ if __name__ == '__main__':
     uni_dictionary, bi_dictionary, tir_dictionary = createdic(trigram)
     bi, allprops = p(uni_dictionary, bi_dictionary, tir_dictionary, trigram)
 
-    x = test("وملقيا", bi, allprops)  # enter the test word
+    # print(bi)
+    # print(allprops)
+    print("Enter the test word:")
+    t = input()
+    x = test(t, bi, allprops)
     print(x)
 
 
