@@ -1,7 +1,7 @@
 import os
 import glob
 
-path = '/Users/mostafasaber/Desktop/tempNLP/Khaleej-2004/Economy'
+path = ''
 
 l = []
 for i in os.listdir(path):
