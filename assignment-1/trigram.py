@@ -1,5 +1,4 @@
 import math
-
 import nltk
 from nltk.collocations import ngrams
 from nltk.corpus import stopwords
@@ -17,7 +16,7 @@ def readfile(filename):
 def tokenzdoc(document):
     tokenizer = RegexpTokenizer(r'\w+')
     words = tokenizer.tokenize(document)
-    stopw = stopwords.words('english')
+    stopw = stopwords.words('arabic')
     tokens = []
     for w in words:
         if w not in stopw:
@@ -56,26 +55,52 @@ def createdic(trigram):
 
 
 def p(uni_dictionary, bi_dictionary, tir_dictionary, trigram):
+    biFinaldic={}
     finaldic = {}
+
     for (a, b, c) in trigram:
+        biFinaldic[(a,b)]=math.log(uni_dictionary[a]/len(uni_dictionary)) + math.log(bi_dictionary[(a, b)]/len(bi_dictionary))
         finaldic[(a, b, c)] = math.log(uni_dictionary[a]/len(uni_dictionary)) + math.log(bi_dictionary[(a, b)]/len(bi_dictionary)) + \
                               math.log(tir_dictionary[(a, b, c)]/len(tir_dictionary))
         # finaldic[(a, b, c)] = uni_dictionary[a]/len(uni_dictionary) * bi_dictionary[(a, b)]/len(bi_dictionary) * \
         #                       tir_dictionary[(a, b, c)]/len(tir_dictionary)
-    return finaldic
+    return biFinaldic,finaldic
 
 
 if __name__ == '__main__':
-    document = readfile("labtask1.txt")
+    document = readfile("tryarabic.txt")
     tokens = tokenzdoc(document)
     trigram = ngram(tokens, 3)
 
     uni_dictionary, bi_dictionary, tir_dictionary = createdic(trigram)
-    allprops = p(uni_dictionary, bi_dictionary, tir_dictionary, trigram)
+    bi,allprops = p(uni_dictionary, bi_dictionary, tir_dictionary, trigram)
     print(uni_dictionary)
     print(bi_dictionary)
     print(tir_dictionary)
+    print(bi)
     print(allprops)
 
-
+def test (word):
+    secWord=""
+    thirdWord=""
+    prop1=-1000
+    prop2=-1000
+    for (a,b)in bi:
+        if (a != word):
+            continue
+        if (bi[(a,b)]>prop1):
+            prop1=bi[(a,b)]
+            secWord=b
+    sent=word+" "+secWord
+    for (a,b,c) in allprops:
+        if (a!=word or b!=secWord):
+            continue
+        if (allprops[(a,b,c)]>prop2):
+            prop2=allprops[(a,b,c)]
+            thirdWord=c
+    sent+=" "+thirdWord
+    return sent
+#************enter the test word
+x=test("")
+print(x)
 
