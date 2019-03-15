@@ -13,14 +13,7 @@ def readfile(filename):
 
 
 def tokenzdoc(document):
-    tokenizer = RegexpTokenizer(r'\w+')
-    words = tokenizer.tokenize(document)
-    stopw = stopwords.words('arabic')
-    tokens = []
-    for w in words:
-        if w not in stopw:
-            tokens.append(w)
-    return tokens
+    return list(RegexpTokenizer(r'\w+').tokenize(document))
 
 
 def ngram(tokens, n):
@@ -89,7 +82,7 @@ if __name__ == '__main__':
     uni_dictionary, bi_dictionary, tir_dictionary = createdic(trigram)
     bi, allprops = p(uni_dictionary, bi_dictionary, tir_dictionary, trigram)
 
-    x = test("قطاع", bi, allprops)  # enter the test word
+    x = test("وملقيا", bi, allprops)  # enter the test word
     print(x)
 
 
