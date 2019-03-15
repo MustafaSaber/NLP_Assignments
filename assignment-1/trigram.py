@@ -1,5 +1,4 @@
 import math
-import nltk
 from nltk.collocations import ngrams
 from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
@@ -26,13 +25,6 @@ def tokenzdoc(document):
 
 def ngram(tokens, n):
     trigram = ngrams(tokens, n)
-    # print("tokens: \n", tokens)
-    # print("Brigrams:")
-    # for i in bigrams:
-    #     print(i)
-    # print("trigrams:")
-    # for i in trigram:
-    #     print(i)
     return list(trigram)
 
 
@@ -68,8 +60,8 @@ def p(uni_dictionary, bi_dictionary, tir_dictionary, trigram):
 
 
 def test(word, bi, allprops):
-    secWord = ""
-    thirdWord = ""
+    sec_word = ""
+    third_word = ""
     prop1 = -1000
     prop2 = -1000
     for (a, b)in bi:
@@ -77,15 +69,15 @@ def test(word, bi, allprops):
             continue
         if bi[(a, b)] > prop1:
             prop1 = bi[(a, b)]
-            secWord = b
-    sent = word + " " + secWord
+            sec_word = b
+    sent = word + " " + sec_word
     for (a, b, c) in allprops:
-        if a != word or b != secWord:
+        if a != word or b != sec_word:
             continue
         if allprops[(a, b, c)] > prop2:
             prop2 = allprops[(a, b, c)]
-            thirdWord = c
-    sent += " " + thirdWord
+            third_word = c
+    sent += " " + third_word
     return sent
 
 
@@ -96,11 +88,13 @@ if __name__ == '__main__':
 
     uni_dictionary, bi_dictionary, tir_dictionary = createdic(trigram)
     bi, allprops = p(uni_dictionary, bi_dictionary, tir_dictionary, trigram)
+
     # print(bi)
     # print(allprops)
     print("Enter the test word:")
     t=input()
     x = test(t, bi, allprops)
+
     print(x)
 
 
