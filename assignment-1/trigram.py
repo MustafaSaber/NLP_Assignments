@@ -1,6 +1,5 @@
 import math
 from nltk.collocations import ngrams
-from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
 
 
