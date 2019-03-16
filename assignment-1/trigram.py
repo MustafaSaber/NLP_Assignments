@@ -51,20 +51,32 @@ def p(uni_dictionary, bi_dictionary, tir_dictionary, trigram):
     return bifinaldic, finaldic
 
 
-def test(word, bi, allprops):
-    sec_word = ""
+def predict(word, bi, allprops):
+    words = word.split(" ")
+    sent = ""
+
+    for i in range(len(words)):
+        sent += words[i] + " "
+
+    if len(words) == 1:
+        sec_word = ""
+        prop1 = -1000
+        for (a, b) in bi:
+            if a != words[0]:
+                continue
+            if bi[(a, b)] > prop1:
+                prop1 = bi[(a, b)]
+                sec_word = b
+        sent += " " + sec_word
+    elif len(words) == 2:
+        sec_word = words[1]
+    else:
+        sec_word = ""
+
     third_word = ""
-    prop1 = -1000
     prop2 = -1000
-    for (a, b)in bi:
-        if a != word:
-            continue
-        if bi[(a, b)] > prop1:
-            prop1 = bi[(a, b)]
-            sec_word = b
-    sent = word + " " + sec_word
     for (a, b, c) in allprops:
-        if a != word or b != sec_word:
+        if a != words[0] or b != sec_word:
             continue
         if allprops[(a, b, c)] > prop2:
             prop2 = allprops[(a, b, c)]
@@ -85,7 +97,7 @@ if __name__ == '__main__':
     # print(allprops)
     print("Enter the test word:")
     t = input()
-    x = test(t, bi, allprops)
+    x = predict(t, bi, allprops)
     print(x)
 
 
