@@ -53,19 +53,28 @@ def p(uni_dictionary, bi_dictionary, tir_dictionary, trigram):
 
 
 def test(word, bi, allprops):
-    sec_word = ""
+    words=word.split(" ")
+    sent=""
+
+    for i in range (len(words)):
+        sent+=words[i]+" "
+
+    if(len(words)==1):
+        sec_word = ""
+        prop1 = -1000
+        for (a, b)in bi:
+            if a != words[0]:
+                continue
+            if bi[(a, b)] > prop1:
+                prop1 = bi[(a, b)]
+                sec_word = b
+        sent+= " " + sec_word
+    if (len(words)==2):
+        sec_word=words[1]
     third_word = ""
-    prop1 = -1000
     prop2 = -1000
-    for (a, b)in bi:
-        if a != word:
-            continue
-        if bi[(a, b)] > prop1:
-            prop1 = bi[(a, b)]
-            sec_word = b
-    sent = word + " " + sec_word
     for (a, b, c) in allprops:
-        if a != word or b != sec_word:
+        if a != words[0] or b != sec_word:
             continue
         if allprops[(a, b, c)] > prop2:
             prop2 = allprops[(a, b, c)]
@@ -75,7 +84,7 @@ def test(word, bi, allprops):
 
 
 if __name__ == '__main__':
-    document = readfile("courps.txt")
+    document = readfile("labtask1.txt")
     tokens = tokenzdoc(document)
     trigram = ngram(tokens, 3)
 
