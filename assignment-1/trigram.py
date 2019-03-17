@@ -42,19 +42,10 @@ def p(uni_dictionary, bi_dictionary, tir_dictionary, trigram):
     bifinaldic={}
     finaldic = {}
 
-    uni_total, bi_total, tri_total = 0, 0, 0
-
-    for key, value in uni_dictionary.items():
-        uni_total += value
-    for key, value in bi_dictionary.items():
-        bi_total += value
-    for key, value in tir_dictionary.items():
-        tri_total += value
-    # print(str(uni_total) + " " + str(bi_total) + " " + str(tri_total))
     for (a, b, c) in trigram:
-        bifinaldic[(a, b)] = math.log(uni_dictionary[a]/uni_total) + math.log(bi_dictionary[(a, b)]/bi_total)
-        finaldic[(a, b, c)] = math.log(uni_dictionary[a]/uni_total) + math.log(bi_dictionary[(a, b)]/bi_total) + \
-                              math.log(tir_dictionary[(a, b, c)]/tri_total)
+        bifinaldic[(a, b)] = math.log(uni_dictionary[a]/len(uni_dictionary)) + math.log(bi_dictionary[(a, b)]/len(bi_dictionary))
+        finaldic[(a, b, c)] = math.log(uni_dictionary[a]/len(uni_dictionary)) + math.log(bi_dictionary[(a, b)]/len(bi_dictionary)) + \
+                              math.log(tir_dictionary[(a, b, c)]/len(tir_dictionary))
         # finaldic[(a, b, c)] = uni_dictionary[a]/len(uni_dictionary) * bi_dictionary[(a, b)]/len(bi_dictionary) * \
         #                       tir_dictionary[(a, b, c)]/len(tir_dictionary)
     return bifinaldic, finaldic
@@ -101,6 +92,9 @@ if __name__ == '__main__':
 
     uni_dictionary, bi_dictionary, tir_dictionary = createdic(trigram)
     bi, allprops = p(uni_dictionary, bi_dictionary, tir_dictionary, trigram)
+
+    # print(bi)
+    # print(allprops)
     print("Enter the test word:")
     t = input()
     x = predict(t, bi, allprops)
