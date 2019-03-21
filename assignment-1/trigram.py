@@ -11,23 +11,14 @@ def readfile(filename):
     return doc
 
 
-def tokenzdoc(doc):
-    return list(RegexpTokenizer(r'\w+').tokenize(doc))
+def create_dic(tri_gram):
 
+    def add_to_dictionary(elem, dictionary):
+        if elem not in dictionary:
+            dictionary[elem] = 1
+        else:
+            dictionary[elem] += 1
 
-def ngram(tokens_list, n):
-    tri_gram = ngrams(tokens_list, n)
-    return list(tri_gram)
-
-
-def add_to_dictionary(elem, dictionary):
-    if elem not in dictionary:
-        dictionary[elem] = 1
-    else:
-        dictionary[elem] += 1
-
-
-def createdic(tri_gram):
     uni_dictionary, bi_dictionary, tir_dictionary = {}, {}, {}
     for (a, b, c) in tri_gram:
         add_to_dictionary(a, uni_dictionary)
@@ -74,11 +65,21 @@ def predict(word, allprops):
 
 
 if __name__ == '__main__':
+
+    # Inside main to deal with it as lambda function,
+    # However the PEB-8 won't accept assign a function to a name without a def
+
+    def tokenzdoc(doc):
+        return list(RegexpTokenizer(r'\w+').tokenize(doc))
+
+    def ngram(tokens_list, n):
+        return list(ngrams(tokens_list, n))
+
     document = readfile("courps.txt")
     tokens = tokenzdoc(document)
     trigram = ngram(tokens, 3)
 
-    uni, bi, tri = createdic(trigram)
+    uni, bi, tri = create_dic(trigram)
     all_props = p(uni, bi, tri, trigram)
     print("Enter the test word:")
     t = input()
