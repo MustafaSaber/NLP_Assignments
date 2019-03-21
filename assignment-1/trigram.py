@@ -5,93 +5,72 @@ from nltk.tokenize import RegexpTokenizer
 
 def readfile(filename):
     f = open(filename, "r")
-    document = ""
+    doc = ""
     for line in f:
-        document += line
-    return document
+        doc += line
+    return doc
 
 
-def tokenzdoc(document):
-    return list(RegexpTokenizer(r'\w+').tokenize(document))
+def tokenzdoc(doc):
+    return list(RegexpTokenizer(r'\w+').tokenize(doc))
 
 
-def ngram(tokens, n):
-    trigram = ngrams(tokens, n)
-    return list(trigram)
+def ngram(tokens_list, n):
+    tri_gram = ngrams(tokens_list, n)
+    return list(tri_gram)
 
 
-def createdic(trigram):
+def add_to_dictionary(elem, dictionary):
+    if elem not in dictionary:
+        dictionary[elem] = 1
+    else:
+        dictionary[elem] += 1
+
+
+def createdic(tri_gram):
     uni_dictionary, bi_dictionary, tir_dictionary = {}, {}, {}
-    for (a, b, c) in trigram:
-        if a not in uni_dictionary:
-            uni_dictionary[a] = 1
-        else:
-            uni_dictionary[a] += 1
-        if (a, b) not in bi_dictionary:
-            bi_dictionary[(a, b)] = 1
-        else:
-            bi_dictionary[(a, b)] += 1
-        if (a, b, c) not in tir_dictionary:
-            tir_dictionary[(a, b, c)] = 1
-        else:
-            tir_dictionary[(a, b, c)] += 1
+    for (a, b, c) in tri_gram:
+        add_to_dictionary(a, uni_dictionary)
+        add_to_dictionary((a, b), bi_dictionary)
+        add_to_dictionary((a, b, c), tir_dictionary)
+    a, b, c = tri_gram[len(tri_gram) - 1]
+    add_to_dictionary(b, uni_dictionary)
+    add_to_dictionary(c, uni_dictionary)
+    add_to_dictionary((b, c), bi_dictionary)
     return uni_dictionary, bi_dictionary, tir_dictionary
 
 
-def p(uni_dictionary, bi_dictionary, tir_dictionary, trigram):
-    bifinaldic={}
+def p(uni_dict, bi_dict, tri_dict, tri_gram):
     finaldic = {}
 
     uni_total, bi_total, tri_total = 0, 0, 0
 
-    for key, value in uni_dictionary.items():
+    for key, value in uni_dict.items():
         uni_total += value
-    for key, value in bi_dictionary.items():
-        bi_total += value
-    for key, value in tir_dictionary.items():
-        tri_total += value
-    # print(str(uni_total) + " " + str(bi_total) + " " + str(tri_total))
-    for (a, b, c) in trigram:
-        bifinaldic[(a, b)] = math.log(uni_dictionary[a]/uni_total) + math.log(bi_dictionary[(a, b)]/bi_total)
-        finaldic[(a, b, c)] = math.log(uni_dictionary[a]/uni_total) + math.log(bi_dictionary[(a, b)]/bi_total) + \
-                              math.log(tir_dictionary[(a, b, c)]/tri_total)
-        # finaldic[(a, b, c)] = uni_dictionary[a]/len(uni_dictionary) * bi_dictionary[(a, b)]/len(bi_dictionary) * \
-        #                       tir_dictionary[(a, b, c)]/len(tir_dictionary)
-    return bifinaldic, finaldic
+
+    bi_total, tri_total = uni_total - 1, uni_total - 2
+
+    for (a, b, c) in tri_gram:
+        finaldic[(a, b, c)] = math.log(uni_dict[a]/uni_total) + math.log(bi_dict[(a, b)]/bi_total) + \
+                              math.log(tri_dict[(a, b, c)]/tri_total)
+    return finaldic
 
 
-def predict(word, bi, allprops):
-    words = word.split(" ")
-    sent = ""
-
-    for i in range(len(words)):
-        sent += words[i] + " "
-
-    if len(words) == 1:
-        sec_word = ""
-        prop1 = -1000
-        for (a, b) in bi:
-            if a != words[0]:
-                continue
-            if bi[(a, b)] > prop1:
-                prop1 = bi[(a, b)]
-                sec_word = b
-        sent += " " + sec_word
-    elif len(words) == 2:
-        sec_word = words[1]
-    else:
-        sec_word = ""
-
-    third_word = ""
-    prop2 = -1000
-    for (a, b, c) in allprops:
-        if a != words[0] or b != sec_word:
-            continue
-        if allprops[(a, b, c)] > prop2:
-            prop2 = allprops[(a, b, c)]
-            third_word = c
-    sent += " " + third_word
-    return sent
+def predict(word, allprops):
+    words = word.split()
+    max_value = -10000000000
+    ans = ""
+    for key, value in allprops.items():
+        a, b, c = key
+        if len(words) == 1:
+            if a == words[0] and value > max_value:
+                max_value = value
+                ans = a + " " + b + " " + c
+        elif len(words) == 2:
+            if a == words[0] and b == words[1] and value > max_value:
+                max_value = value
+                ans = a + " " + b + " " + c
+    return ans
 
 
 if __name__ == '__main__':
@@ -99,14 +78,9 @@ if __name__ == '__main__':
     tokens = tokenzdoc(document)
     trigram = ngram(tokens, 3)
 
-    uni_dictionary, bi_dictionary, tir_dictionary = createdic(trigram)
-    bi, allprops = p(uni_dictionary, bi_dictionary, tir_dictionary, trigram)
+    uni, bi, tri = createdic(trigram)
+    all_props = p(uni, bi, tri, trigram)
     print("Enter the test word:")
     t = input()
-    x = predict(t, bi, allprops)
+    x = predict(t, all_props)
     print(x)
-
-
-
-
-
