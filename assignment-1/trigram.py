@@ -3,14 +3,6 @@ from nltk.collocations import ngrams
 from nltk.tokenize import RegexpTokenizer
 
 
-def readfile(filename):
-    f = open(filename, "r")
-    doc = ""
-    for line in f:
-        doc += line
-    return doc
-
-
 def create_dic(tri_gram):
 
     def add_to_dictionary(elem, dictionary):
@@ -38,7 +30,6 @@ def p(uni_dict, bi_dict, tri_dict, tri_gram):
 
     for key, value in uni_dict.items():
         uni_total += value
-
     bi_total, tri_total = uni_total - 1, uni_total - 2
 
     for (a, b, c) in tri_gram:
@@ -69,6 +60,9 @@ if __name__ == '__main__':
     # Inside main to deal with it as lambda function,
     # However the PEB-8 won't accept assign a function to a name without a def
 
+    def readfile(filename):
+        return ''.join(open(filename, "r").readlines())
+
     def tokenzdoc(doc):
         return list(RegexpTokenizer(r'\w+').tokenize(doc))
 
@@ -84,4 +78,4 @@ if __name__ == '__main__':
     print("Enter the test word:")
     t = input()
     x = predict(t, all_props)
-    print(x)
+    print(f"the predicted value is: {x}")
