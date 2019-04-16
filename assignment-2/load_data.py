@@ -5,7 +5,7 @@ import random
 
 def get_data(path):
     def load_files(path):
-        return [file for file in listdir(path) if isfile(join(path, file))]
+        return [f for f in listdir(path) if isfile(join(path, f))]
 
     pos_reviews = load_files(join(path, "pos"))
     neg_reviews = load_files(join(path, "neg"))
@@ -22,14 +22,11 @@ def get_data(path):
     random.seed(1)
     random.shuffle(corpus)
 
-    labels = []
-    documents = []
+    labels, documents = [], []
     for (value, label) in corpus:
         documents.append(value)
         labels.append(label)
 
     return documents, labels
 
-
-# corpus, dict = get_data("/Users/mostafasaber/Desktop/tempNLP/review_polarity/txt_sentoken")
 
