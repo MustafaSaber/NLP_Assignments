@@ -1,10 +1,6 @@
-import os
-from os import listdir, path
+from os import listdir
 from os.path import isfile, join
 import random
-reviews = []
-
-# /Users/mostafasaber/Desktop/tempNLP/review_polarity/txt_sentoken
 
 
 def get_data(path):
@@ -23,6 +19,7 @@ def get_data(path):
         text_current_doc = open(join(join(path, "neg"), temp_file)).read()
         corpus.append((text_current_doc, 0))
 
+    random.seed(1)
     random.shuffle(corpus)
 
     labels = []
