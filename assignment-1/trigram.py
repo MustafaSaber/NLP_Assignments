@@ -25,50 +25,6 @@ def create_dic(tri_gram):
 
 def p(uni_dict, bi_dict, tri_dict, tri_gram):
     finaldic = {}
-
-<<<<<<< HEAD
-    for (a, b, c) in trigram:
-        bifinaldic[(a, b)] = math.log(uni_dictionary[a]/len(uni_dictionary)) + math.log(bi_dictionary[(a, b)]/len(bi_dictionary))
-        finaldic[(a, b, c)] = math.log(uni_dictionary[a]/len(uni_dictionary)) + math.log(bi_dictionary[(a, b)]/len(bi_dictionary)) + \
-                              math.log(tir_dictionary[(a, b, c)]/len(tir_dictionary))
-        # finaldic[(a, b, c)] = uni_dictionary[a]/len(uni_dictionary) * bi_dictionary[(a, b)]/len(bi_dictionary) * \
-        #                       tir_dictionary[(a, b, c)]/len(tir_dictionary)
-    return bifinaldic, finaldic
-
-
-def predict(word, bi, allprops):
-    words = word.split(" ")
-    sent = ""
-
-    for i in range(len(words)):
-        sent += words[i] + " "
-
-    if len(words) == 1:
-        sec_word = ""
-        prop1 = -1000
-        for (a, b) in bi:
-            if a != words[0]:
-                continue
-            if bi[(a, b)] > prop1:
-                prop1 = bi[(a, b)]
-                sec_word = b
-        sent += " " + sec_word
-    elif len(words) == 2:
-        sec_word = words[1]
-    else:
-        sec_word = ""
-
-    third_word = ""
-    prop2 = -1000
-    for (a, b, c) in allprops:
-        if a != words[0] or b != sec_word:
-            continue
-        if allprops[(a, b, c)] > prop2:
-            prop2 = allprops[(a, b, c)]
-            third_word = c
-    sent += " " + third_word
-    return sent
-=======
     uni_total, bi_total, tri_total = 0, 0, 0
 
     for key, value in uni_dict.items():
@@ -96,25 +52,9 @@ def predict(word, allprops):
                 max_value = value
                 ans = a + " " + b + " " + c
     return ans
->>>>>>> 00a8070761268fea4cc19ed79706ea6a36c60b9b
 
 
 if __name__ == '__main__':
-
-<<<<<<< HEAD
-    uni_dictionary, bi_dictionary, tir_dictionary = createdic(trigram)
-    bi, allprops = p(uni_dictionary, bi_dictionary, tir_dictionary, trigram)
-
-    # print(bi)
-    # print(allprops)
-    print("Enter the test word:")
-    t = input()
-    x = predict(t, bi, allprops)
-    print(x)
-=======
-    # Inside main to deal with it as lambda function,
-    # However the PEB-8 won't accept assign a function to a name without a def
->>>>>>> 00a8070761268fea4cc19ed79706ea6a36c60b9b
 
     def readfile(filename):
         return ''.join(open(filename, "r").readlines())
