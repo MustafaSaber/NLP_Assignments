@@ -2,9 +2,15 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from load_data import get_data
+<<<<<<< HEAD
 import numpy as np
 import matplotlib.pyplot as plt
 from pylib.plot import plot_decision_boundary
+=======
+from sklearn.decomposition import TruncatedSVD
+from sklearn.manifold import TSNE
+import matplotlib.pyplot as plt
+>>>>>>> c613f43254d89bce9791dcb0b564615b6794fa03
 
 def set_matrices(x, y, to_split, vectroizer_used):
     y_train, y_test = y[:to_split], y[to_split:]
@@ -16,6 +22,16 @@ def set_matrices(x, y, to_split, vectroizer_used):
 
 def predict(text, model_used, vectroizer_used):
     return model_used.predict(vectroizer_used.transform(text))
+
+
+def plot(x, y):
+    # Using Truncated SVD cause it works on sparse matrix which Tf-Idf return
+    # reduce to 50 feature then use TSNE
+    reduced = TruncatedSVD(n_components=50, random_state=7).fit_transform(x)
+    embedded = TSNE(n_components=2).fit_transform(reduced)
+    axes = plt.axes()
+    axes.scatter(embedded[:, 0], embedded[:, 1], c=y)
+    plt.show()
 
 
 def main():
@@ -35,5 +51,11 @@ def main():
     ans = predict(text_to_predict, logistic_regression, tfid)
     print(f"The predicted Label is: {ans}")
 
+<<<<<<< HEAD
+=======
+    plot(x_train, y_train)
+
+
+>>>>>>> c613f43254d89bce9791dcb0b564615b6794fa03
 if __name__ == "__main__":
     main()
