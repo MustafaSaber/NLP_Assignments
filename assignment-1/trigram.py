@@ -25,7 +25,6 @@ def create_dic(tri_gram):
 
 def p(uni_dict, bi_dict, tri_dict, tri_gram):
     finaldic = {}
-
     uni_total, bi_total, tri_total = 0, 0, 0
 
     for key, value in uni_dict.items():
@@ -56,9 +55,6 @@ def predict(word, allprops):
 
 
 if __name__ == '__main__':
-
-    # Inside main to deal with it as lambda function,
-    # However the PEB-8 won't accept assign a function to a name without a def
 
     def readfile(filename):
         return ''.join(open(filename, "r").readlines())
