@@ -2,7 +2,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from load_data import get_data
-
+import numpy as np
+import matplotlib.pyplot as plt
+from pylib.plot import plot_decision_boundary
 
 def set_matrices(x, y, to_split, vectroizer_used):
     y_train, y_test = y[:to_split], y[to_split:]
@@ -17,7 +19,7 @@ def predict(text, model_used, vectroizer_used):
 
 
 def main():
-    x, y = get_data("/Users/mostafasaber/Desktop/tempNLP/review_polarity/txt_sentoken")
+    x, y = get_data("txt_sentoken")
 
     tfid = TfidfVectorizer(lowercase=True, analyzer='word', stop_words='english')
     x_train, y_train, x_test, y_test = set_matrices(x, y, int(0.75 * len(y)), tfid)
@@ -28,11 +30,10 @@ def main():
 
     print(f"Accuracy score: {accuracy_score(y_test, predicted)}")
 
-    text_to_predict = ["This is a very bad movie", "This is a very good movie"]
+    text_to_predict = ["it's very good", "This is a very good movie"]
 
     ans = predict(text_to_predict, logistic_regression, tfid)
     print(f"The predicted Label is: {ans}")
-
 
 if __name__ == "__main__":
     main()
