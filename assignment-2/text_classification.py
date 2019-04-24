@@ -6,7 +6,6 @@ from sklearn.decomposition import TruncatedSVD
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 
-
 def se_sum_of_we(x):
     lines = open("glove.6B.100d.txt").readlines()
     dic = {}
@@ -58,14 +57,14 @@ def plot(x, y):
     # Using Truncated SVD cause it works on sparse matrix which Tf-Idf return
     # reduce to 50 feature then use TSNE
     reduced = TruncatedSVD(n_components=50, random_state=7).fit_transform(x)
-    embedded = TSNE(n_components=2).fit_transform(reduced)
+    embedded = TSNE(n_components=3).fit_transform(reduced)
     axes = plt.axes()
-    axes.scatter(embedded[:, 0], embedded[:, 1], c=y)
+    axes.scatter(embedded[:, 0], embedded[:, 1], embedded[:, 2], c=y)
     plt.show()
 
 
 def main():
-    x, y = get_data("/Users/mostafasaber/Desktop/tempNLP/review_polarity/txt_sentoken")
+    x, y = get_data("/Users/mostafasaber/PycharmProjects/NLP_Laps/txt_sentoken")
 
     vec, x_train, y_train, x_test, y_test = set_matrices(x, y, int(0.75 * len(y)), 1)
 
@@ -79,7 +78,6 @@ def main():
 
     ans = predict(text_to_predict, logistic_regression, vec, 1)
     print(f"The predicted Label is: {ans}")
-
     # plot(x_train, y_train)
 
 
