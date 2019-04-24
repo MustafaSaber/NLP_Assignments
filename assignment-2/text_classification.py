@@ -31,7 +31,7 @@ def set_matrices(x, y, to_split, algo):
     y_train, y_test = y[:to_split], y[to_split:]
     x_train, x_test = x[:to_split], x[to_split:]
     if algo == 0:
-        vec, x_train, x_test = tf_idf(x_train, x_test)
+        vec, x_train, x_test = tf_idf(x_train, x_test, tfid)
         return tfid, x_train, y_train, x_test, y_test
     if algo == 1:
         new_x = se_sum_of_we(x)
