@@ -19,9 +19,10 @@ def plot(x, y):
 
 
 def main():
-    x, y = get_data("txt_sentoken")
+    x, y = get_data("C:\\Users\Wahba\Desktop\\txt_sentoken")
     #globals.init()
     sum_embedding = Embedding(x, y)
+    t= TfIdf(x,y)
 
 
 if __name__ == "__main__":
