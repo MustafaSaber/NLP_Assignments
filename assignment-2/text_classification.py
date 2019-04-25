@@ -19,8 +19,8 @@ def plot(x, y):
 
 
 def main():
-    x, y = get_data("/Users/mostafasaber/PycharmProjects/NLP_Laps/txt_sentoken")
-    globals.init()
+    x, y = get_data("txt_sentoken")
+    #globals.init()
     sum_embedding = Embedding(x, y)
 
 
