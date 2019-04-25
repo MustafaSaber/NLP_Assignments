@@ -19,7 +19,7 @@ def get_data(path):
         text_current_doc = open(join(join(path, "neg"), temp_file)).read()
         corpus.append((text_current_doc, 0))
 
-    random.seed(1)
+    random.seed()
     random.shuffle(corpus)
 
     labels, documents = [], []
