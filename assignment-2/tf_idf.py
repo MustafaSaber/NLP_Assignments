@@ -27,6 +27,6 @@ class TfIdf:
     def run(self):
         x_train, x_test, y_train, y_test = self.split_train()
         self.model_train(x_train, y_train, x_test, y_test)
-        text_to_predict = ["This is a great movie", "This is a very good movie"]
+        text_to_predict = ["This is a bad movie", "This is a very good movie"]
         ans = self.predict(text_to_predict)
         print(f"The predicted Label is: {ans}")

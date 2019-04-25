@@ -19,10 +19,13 @@ def plot(x, y):
 
 
 def main():
-    x, y = get_data("C:\\Users\Wahba\Desktop\\txt_sentoken")
-    #globals.init()
-    sum_embedding = Embedding(x, y)
-    t= TfIdf(x,y)
+    # Mostafa path /Users/mostafasaber/PycharmProjects/NLP_Laps/txt_sentoken
+    # Nour path C:\\Users\Wahba\Desktop\\txt_sentoken
+    x, y = get_data("/Users/mostafasaber/PycharmProjects/NLP_Laps/txt_sentoken")
+    print("MODEL 1 and 2: ")
+    Embedding(x, y)
+    print("MODEL 3: ")
+    TfIdf(x, y)
 
 
 if __name__ == "__main__":
