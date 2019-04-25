@@ -37,8 +37,6 @@ class Embedding:
             words = text.lower().split()
             temp_list_of_vectors = [self.dic[word] if word in self.dic else [0]*100 for word in words]
             temp_list = [sum(t) for t in zip(*temp_list_of_vectors)]
-            for i in temp_list:
-                i/=len(temp_list_of_vectors)
             list_of_vectors.append(temp_list)
 
         return list_of_vectors
