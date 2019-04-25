@@ -20,7 +20,6 @@ class Embedding:
         for i in lines:
             values = i.split()
             self.dic[values[0]] = list(map(float, values[1:]))
-        return self.dic
 
     def change_data(self, value, aggregate):
         list_of_vectors = []
