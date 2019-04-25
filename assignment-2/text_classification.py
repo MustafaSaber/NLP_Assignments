@@ -6,8 +6,9 @@ from sklearn.decomposition import TruncatedSVD
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 
+
 def se_sum_of_we(x):
-    lines = open("glove.6B.100d.txt").readlines()
+    lines = open("/Users/mostafasaber/Desktop/tempNLP/glove.6B/glove.6B.100d.txt").readlines()
     dic = {}
     for i in lines:
         values = i.split()
