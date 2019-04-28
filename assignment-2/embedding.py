@@ -40,18 +40,13 @@ class Embedding:
         return data_to_split[:self.splitvalue], data_to_split[self.splitvalue:], \
                self.y[:self.splitvalue], self.y[self.splitvalue:]
 
-    def model_train(self, x_train, y_train, x_test, y_test):
-        globals.logistic_regression.fit(x_train, y_train)
-        predicted = globals.logistic_regression.predict(x_test)
-        print(f"Accuracy score: {accuracy_score(y_test, predicted)}")
-
     def predict(self, text, aggregate):
         return globals.logistic_regression.predict(self.change_data(text, aggregate))
 
     def run(self, aggregate):
         new_x = self.change_data(self.x, aggregate)
         x_train, x_test, y_train, y_test = self.split(new_x)
-        self.model_train(x_train, y_train, x_test, y_test)
+        globals.model_train(x_train, y_train, x_test, y_test)
         text_to_predict = ["This is a bad movie", "This is a very good movie"]
         ans = self.predict(text_to_predict, aggregate)
         print(f"The predicted Label is: {ans}")
