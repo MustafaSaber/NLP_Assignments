@@ -30,3 +30,4 @@ class TfIdf:
         text_to_predict = ["This is a bad movie", "This is a very good movie"]
         ans = self.predict(text_to_predict)
         print(f"The predicted Label is: {ans}")
+        globals.plot(x_train, y_train)

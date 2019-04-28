@@ -1,5 +1,6 @@
 import globals
 from sklearn.metrics import accuracy_score
+# from nltk.corpus import stopwords
 
 
 class Embedding:
@@ -25,7 +26,12 @@ class Embedding:
         list_of_vectors = []
         for text in value:
             words = text.lower().split()
-            temp_list_of_vectors = [self.dic[word] if word in self.dic else [0]*100 for word in words]
+            # refactord_words = [globals.stemmer.stem(word) for word in words]
+            # words = [ word for word in words if word not in stopwords.words('english')]
+            # Removing stopwords take a lot of time and still doesn't increase accuracy
+            # Lemmetizing got better results than stemming
+            refactord_words = [globals.lemmetizer.lemmatize(word) for word in words]
+            temp_list_of_vectors = [self.dic[word] if word in self.dic else [0]*100 for word in refactord_words]
             temp_list = [sum(t) / len(t) if aggregate == "AVG" else sum(t) for t in zip(*temp_list_of_vectors)]
             list_of_vectors.append(temp_list)
         return list_of_vectors
@@ -49,6 +55,6 @@ class Embedding:
         text_to_predict = ["This is a bad movie", "This is a very good movie"]
         ans = self.predict(text_to_predict, aggregate)
         print(f"The predicted Label is: {ans}")
-
+        globals.plot(x_train, y_train)
 
 
