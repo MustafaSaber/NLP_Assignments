@@ -1,6 +1,7 @@
 from load_data import get_data
 from tf_idf import TfIdf
 from embedding import Embedding
+from document_vector import DocumentToVector
 
 
 def main():
@@ -11,6 +12,8 @@ def main():
     Embedding(x, y)
     print("MODEL 3: ")
     TfIdf(x, y)
+    print("MODEL 4:")
+    DocumentToVector(x, y)
 
 
 if __name__ == "__main__":
