@@ -14,11 +14,7 @@ class DocumentToVector:
         self.run()
 
     def load_data(self):
-        docs = []
-        for i, text in enumerate(self.x):
-            words = text.lower().split()
-            tags = [i]
-            docs.append(self.analyzedDocument(words, tags))
+        docs = [self.analyzedDocument(text.lower().split(), [i]) for i, text in enumerate(self.x)]
         return doc2vec.Doc2Vec(docs, vector_size=100, window=10, min_count=2, workers=4)
 
     def change_data(self, trained_model):
