@@ -1,5 +1,4 @@
 import globals
-from sklearn.metrics import accuracy_score
 # from nltk.corpus import stopwords
 
 
